@@ -161,16 +161,20 @@ async def on_message(message):
 
 
 @panda.event       
-async def on_reaction_add_raw(reaction):
-    print(reaction)
+async def on_raw_reaction_add(reaction):
+    #print(reaction)
     message_id = reaction.message_id
+    #print(type(message_id))
     channel_id = reaction.channel_id
     channel = panda.get_channel(channel_id)
-    message = channel.fetch_message(message_id)
+    message = await channel.fetch_message(message_id)
     
     if message.pinned:
                 return
-    reaction = next(x for x in message.reactions if (isinstance(x.emoji, str) and str(x.emoji) in EMOJI_NAMES) or (not isinstance(x.emoji, str)and x.emoji.name in EMOJI_NAMES))
+    try:
+        reaction = next(x for x in message.reactions if (isinstance(x.emoji, str) and str(x.emoji) in EMOJI_NAMES) or (not isinstance(x.emoji, str)and x.emoji.name in EMOJI_NAMES))
+    except RuntimeError:
+        return
     if reaction.count >= 5:
             try:
                 await message.pin()
