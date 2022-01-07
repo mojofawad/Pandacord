@@ -173,9 +173,7 @@ async def on_raw_reaction_add(reaction):
                 return
     try:
         reaction = next(x for x in message.reactions if (isinstance(x.emoji, str) and str(x.emoji) in EMOJI_NAMES) or (not isinstance(x.emoji, str)and x.emoji.name in EMOJI_NAMES))
-    except RuntimeError:
-        return
-    if reaction.count >= 5:
+        if reaction.count >= 5:
             try:
                 await message.pin()
             except HTTPException:  # This most likely means we reached max pins
@@ -183,6 +181,8 @@ async def on_raw_reaction_add(reaction):
                 oldest_pin = pins.pop()
                 await oldest_pin.unpin()
                 await message.pin()
+    except Exception:
+        pass
 
 
 
