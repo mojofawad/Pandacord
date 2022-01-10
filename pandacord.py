@@ -5,7 +5,6 @@ import random
 from discord import HTTPException
 
 
-
 load_dotenv()
 token = os.getenv('Discord_token')
 close_mutuals = os.getenv('close_moots')
@@ -81,10 +80,13 @@ async def on_message(message):
         await message.channel.send('https://cdn.discordapp.com/attachments/881855141656006699/928035535077916702/20220104_072745.jpg')
 
     # >mel
-    melo = ['https://media.discordapp.net/attachments/881855141656006699/928029399989768193/Screenshot_20220104-043443.jpg',
+    melo = [
+    'https://media.discordapp.net/attachments/881855141656006699/928029399989768193/Screenshot_20220104-043443.jpg',
     'https://cdn.discordapp.com/attachments/881855141656006699/929716909279174677/Screenshot_20220109-074250.jpg',
     'https://cdn.discordapp.com/attachments/881855141656006699/929739942664482836/unknown.png',
-    'https://cdn.discordapp.com/attachments/881855141656006699/929740142099431424/unknown.png']
+    'https://cdn.discordapp.com/attachments/881855141656006699/929740142099431424/unknown.png',
+    'https://cdn.discordapp.com/attachments/881855141656006699/930052640870641704/unknown.png'
+    ]
 
     if message.content.startswith(leadvar+'hermajesty'):
         k = random.randrange(0,len(melo))
@@ -94,18 +96,26 @@ async def on_message(message):
         await message.channel.send(melo[k])
     
     # >reese
+    reese = [
+    'https://cdn.discordapp.com/attachments/881855141656006699/928037187054874624/Therapy_costs_money_shitposting_is_free.png',
+    'resident catgirl',
+    '<:pained:930055983160524840>',
+    'https://www.youtube.com/watch?v=XVekJTmtwqM'
+    ]
     if message.content.startswith(leadvar+'reese'):
-        await message.channel.send('https://cdn.discordapp.com/attachments/881855141656006699/928037187054874624/Therapy_costs_money_shitposting_is_free.png')
+        j = random.randrange(0,len(reese))
+        await message.channel.send(reese[j])
     
     # >nico
+    nico = [
+        '<@&919998459795361822>',
+        'I am a child',
+        'read unorthodox marxism',
+        'parecon solves this'
+    ]
     if message.content.startswith(leadvar+'nico'):
-        j = random.randrange(1,4)
-        if j == 1:
-            await message.channel.send('<@&919998459795361822>')
-        elif j == 2:
-            await message.channel.send('I am a child')
-        else:
-            await message.channel.send('read unorthodox marxism')    
+        j = random.randrange(0,len(nico))
+        await message.channel.send(nico[j])
 
     # >kimik
     if message.content.startswith(leadvar+'kimik'):
@@ -138,8 +148,15 @@ async def on_message(message):
             await message.channel.send('https://www.youtube.com/watch?v=es9-P1SOeHU')    
     
     # >zoomy
+    zoomy = [
+    'Fuckin\' Brits',
+    'GDP is lies and hornswoggle',
+    'Neoclassical economics is horoscopes and witchcraft',
+    'Oi you wanker, ah u havin\' a gaggle? Ay\'ll baight ur fookin\' legs off',
+    ]
     if message.content.startswith(leadvar+'zoomy'):
-        await message.channel.send('Fuckin\' Brits')
+        j = random.randrange(0,len(zoomy))
+        await message.channel.send(zoomy[j])
 
     # >cass
     if message.content.startswith(leadvar+'cass'):
@@ -148,16 +165,14 @@ async def on_message(message):
     # imvegan
 
     if message.content.find('im vegan') >= 0:
-        t = random.randrange(1,5)
-        if t == 1:
-            await message.channel.send('But where do you get your protein?')
-        elif t == 2:
-            await message.channel.send('Oh me too! I only eat meat on Thursdays!')
-        elif t == 3:
-            await message.channel.send('Oh I could never be vegan, where would I get my B12?')    
-        else:
-            await message.channel.send('So that means you eat fish right?')        
-    # >bonkcount
+        vegan = [
+            'But where do you get your protein?',
+            'Oh me too! I only eat meat on Thursdays!',
+            'Oh I could never be vegan, where would I get my B12?',
+            'So that means you eat fish right?'
+        ]
+        t = random.randrange(0,len(vegan))
+        await message.channel.send(vegan[t])
     
 
     # >dakota will likely need some sort of gif return
