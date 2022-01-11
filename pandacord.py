@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 import random
 from discord import HTTPException
-
+from tqdm import tqdm
 
 load_dotenv()
 token = os.getenv('Discord_token')
@@ -52,25 +52,34 @@ async def on_message(message):
         response = random.choice(pangif)
         await message.channel.send(response)
 
-    # >ignose    
+    # >ignose
+    ignose = [
+        'papa ignose',
+        'One must imagine Sisyphus happy',
+        'The boulder is heavy',
+        'ACAB',
+        'Abolish the state'
+    ]
     if message.content.startswith(leadvar+'ignose'):
-        await message.channel.send('a white powder')
+        l = random.randrange(0,len(ignose))
+        await message.channel.send(ignose[l])
     elif message.content == 'raise-exception':
         raise discord.DiscordException
  
     # >geo
     if message.content.startswith(leadvar+'geo'):
+        geo = [
+            'https://cdn.discordapp.com/emojis/896886830622965820.png?size=96',
+            'Geo is important and worthy of love <:people_hugging:928020730384359525>',
+            'We all believe in you Geo',
+            'Certified Not a Simp'
+        ]
         if message.author.id == '244858804863238144':
             await message.channel.send('Are you really trying to bonk yourself Geo? Go to Horny Jail')
         else:
             # await message.channel.send('<:bonk:896886830622965820>')
-            k = random.randrange(1,3)
-            if k == 1:
-                await message.channel.send('https://cdn.discordapp.com/emojis/896886830622965820.png?size=96')
-                print(k)
-            else:
-                await message.channel.send('Geo is important and worthy of love <:people_hugging:928020730384359525>')
-                print(k)
+            k = random.randrange(0,len(geo))
+            await message.channel.send(geo[k])
     elif message.content == 'raise-exception':
         raise discord.DiscordException
 
@@ -118,23 +127,34 @@ async def on_message(message):
         await message.channel.send(nico[j])
 
     # >kimik
+    kimik = [
+        'https://i.redd.it/3bsmt7wh3m611.jpg',
+        'fuck you too',
+        'Tu rationalise tes echecs par le contexte, c\'est un biais classique'
+    ]
     if message.content.startswith(leadvar+'kimik'):
-        z = random.randrange(1,3)
-        if z == 1:
-            await message.channel.send('https://i.redd.it/3bsmt7wh3m611.jpg')
-        else:
-            await message.channel.send('fuck you too')
+        z = random.randrange(0,len(kimik))
+        await message.channel.send(kimik[z])
+
   
     # >corb
     if message.content.startswith(leadvar+'corb'):
         await message.channel.send('https://i.kym-cdn.com/photos/images/newsfeed/002/255/820/79a.jpg')        
     
     # >waifu
+    waifu = [
+        'https://c.tenor.com/xMUclj_Bn9AAAAAC/jujutsu-kaisen-anime.gif',
+        '"Knowing how to be solitary is central to the art of loving. When we can be alone, we can be with others without using them as a means of escape."',
+        'Fuck Covid',
+        'Fuck Joe Biden',
+        'The democrats are corrupt and impotent.',
+        'The rising tide of fascism will doom us all, and the only political party able to stand in its way prefers to squabble amongst itself and hand Trump or DeSantis the 2024 presidency.',
+        'Climate Change has stolen the future from us all, and we are only able to watch its immense propensity with limp torpor.'
+
+    ]
     if message.content.startswith(leadvar+'waifu'):
-        if random.randrange(1,2) == 1:
-            await message.channel.send('https://c.tenor.com/xMUclj_Bn9AAAAAC/jujutsu-kaisen-anime.gif')
-        # else:
-            # await message.channel.send('https://media4.giphy.com/media/862A6X2sooSsw/giphy.gif?cid=ecf05e47u1pxr0t8k0xcp6ldqnfctilojn8hwtt5clamodls&rid=giphy.gif&ct=g')
+        j = random.randrange(1,len(waifu))
+        await message.channel.send('https://c.tenor.com/xMUclj_Bn9AAAAAC/jujutsu-kaisen-anime.gif')
             
     # >lucky
     if message.content.startswith(leadvar+'lucky'):
@@ -153,10 +173,21 @@ async def on_message(message):
     'GDP is lies and hornswoggle',
     'Neoclassical economics is horoscopes and witchcraft',
     'Oi you wanker, ah u havin\' a gaggle? Ay\'ll baight ur fookin\' legs off',
+    'https://youtu.be/3bYRCTS7eBU'
     ]
     if message.content.startswith(leadvar+'zoomy'):
         j = random.randrange(0,len(zoomy))
         await message.channel.send(zoomy[j])
+
+    # >pecun
+    pecun = [
+        'I love veblen almost obsessively',
+        'https://discord.com/channels/881855141077213185/881856105070866442/929801848464998421',
+        'There is a required consumption which escalates with the pecuniary standard.',
+    ]
+    if message.content.startswith(leadvar+'pecun'):
+        j = random.randrange(0,len(pecun))
+        await message.channel.send(pecun[j])
 
     # >cass
     if message.content.startswith(leadvar+'cass'):
@@ -178,7 +209,53 @@ async def on_message(message):
     # >dakota will likely need some sort of gif return
     # if message.content.startswith(leadvar+'dakota'):
         # await message.channel.send()
-    #if message.content.startswith(leadvar+'bonkcount'):
+    
+    ## Bonkboard The current version does the following. It fetches every channel in the guild (in this case close moots), then it fetches the history of every channel.
+    ## Afterwards, it iterates through every message, checking that the reactions on the message match the bonk emoji. When it finds a match, it increments the bonkboard counter
+    ## The bonkboard counter is then returned at the end.
+    ## This is very resource intensive. The first improvement will need to be to store the data locally. Capture the time of the request, then make sure the fetched history
+    ## does not go earlier than the most recent fetched history. This can be done with a little logic. 
+
+
+    if message.content.startswith(leadvar+'bonkboard'):
+        #bonk = '<:bonk:930187932210454648>'
+        bonk = 'kekw'
+        bonkboard = {}
+        closemoots = panda.get_guild(881855141077213185)
+        messagechannel = message.channel
+        for channels in closemoots.channels:
+            try:
+                #counter = 0
+                messages = await channels.history(limit=100, oldest_first=True).flatten()
+                #print(len(messages))
+                for message in messages:
+                    #print(message.reactions)
+                    #counter += 1
+                    #print(message.reactions&'first loop')
+                    for react in message.reactions:
+                        print(react)
+                        if str(bonk) in react:
+                            try: 
+                                temp = bonkboard[message.author] +1
+                                bonkboard.update({message.author: temp})
+                                print('bonk counted')
+                            except:
+                                bonkboard[message.author] = 1
+                        else:
+                            continue
+                #print(channels)
+            except AttributeError:
+                continue
+            except:
+                #print(messages)
+                #print(channels)
+                #print(counter)
+                #print(channels.history)
+                continue
+        #channel = messagechannel
+        #channel = panda.get_channel(channel)
+        await messagechannel.send(bonkboard)
+
 
 
 
