@@ -154,7 +154,7 @@ async def on_message(message):
     ]
     if message.content.startswith(leadvar+'waifu'):
         j = random.randrange(1,len(waifu))
-        await message.channel.send('https://c.tenor.com/xMUclj_Bn9AAAAAC/jujutsu-kaisen-anime.gif')
+        await message.channel.send(waifu[j])
             
     # >lucky
     if message.content.startswith(leadvar+'lucky'):
@@ -218,42 +218,30 @@ async def on_message(message):
 
 
     if message.content.startswith(leadvar+'bonkboard'):
-        #bonk = '<:bonk:930187932210454648>'
-        bonk = 'kekw'
+        bonk = ['<:bonk:896886830622965820>','<:BONK:718289967155118130>','<:bonk:930818372831174656>']
+        #bonk = 'kekw'
         bonkboard = {}
         closemoots = panda.get_guild(881855141077213185)
         messagechannel = message.channel
         for channels in closemoots.channels:
             try:
-                #counter = 0
-                messages = await channels.history(limit=100, oldest_first=True).flatten()
-                #print(len(messages))
+                messages = await channels.history(limit=100).flatten()
                 for message in messages:
-                    #print(message.reactions)
-                    #counter += 1
-                    #print(message.reactions&'first loop')
                     for react in message.reactions:
-                        print(react)
-                        if str(bonk) in react:
+                        if str(react) in bonk:
                             try: 
-                                temp = bonkboard[message.author] +1
-                                bonkboard.update({message.author: temp})
-                                print('bonk counted')
+                                temp = bonkboard[message.author.name] + react.count
+                                bonkboard.update({message.author.name: temp})
+                                #print('bonk counted')
                             except:
-                                bonkboard[message.author] = 1
+                                bonkboard[message.author.name] = react.count
                         else:
                             continue
-                #print(channels)
             except AttributeError:
+                print(AttributeError)
                 continue
             except:
-                #print(messages)
-                #print(channels)
-                #print(counter)
-                #print(channels.history)
                 continue
-        #channel = messagechannel
-        #channel = panda.get_channel(channel)
         await messagechannel.send(bonkboard)
 
 
