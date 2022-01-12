@@ -3,8 +3,8 @@ import os
 from dotenv import load_dotenv
 import random
 from discord import HTTPException
-from tqdm import tqdm
 import json
+from csvfunctions import custom_func_get,custom_func_update
 
 load_dotenv()
 token = os.getenv('Discord_token')
@@ -55,147 +55,6 @@ async def on_message(message):
         response = random.choice(pangif)
         await message.channel.send(response)
 
-    # >ignose
-    ignose = [
-        'papa ignose',
-        'One must imagine Sisyphus happy',
-        'The boulder is heavy',
-        'ACAB',
-        'Abolish the state'
-    ]
-    if message.content.startswith(leadvar+'ignose'):
-        l = random.randrange(0,len(ignose))
-        await message.channel.send(ignose[l])
-    elif message.content == 'raise-exception':
-        raise discord.DiscordException
- 
-    # >geo
-    if message.content.startswith(leadvar+'geo'):
-        geo = [
-            'https://cdn.discordapp.com/emojis/896886830622965820.png?size=96',
-            'Geo is important and worthy of love <:people_hugging:928020730384359525>',
-            'We all believe in you Geo',
-            'Certified Not a Simp'
-        ]
-        if message.author.id == '244858804863238144':
-            await message.channel.send('Are you really trying to bonk yourself Geo? Go to Horny Jail')
-        else:
-            # await message.channel.send('<:bonk:896886830622965820>')
-            k = random.randrange(0,len(geo))
-            await message.channel.send(geo[k])
-    elif message.content == 'raise-exception':
-        raise discord.DiscordException
-
-
-    # >imran
-    if message.content.startswith(leadvar+'imran'):
-        await message.channel.send('https://cdn.discordapp.com/attachments/881855141656006699/928035535077916702/20220104_072745.jpg')
-
-    # >mel
-    melo = [
-    'https://media.discordapp.net/attachments/881855141656006699/928029399989768193/Screenshot_20220104-043443.jpg',
-    'https://cdn.discordapp.com/attachments/881855141656006699/929716909279174677/Screenshot_20220109-074250.jpg',
-    'https://cdn.discordapp.com/attachments/881855141656006699/929739942664482836/unknown.png',
-    'https://cdn.discordapp.com/attachments/881855141656006699/929740142099431424/unknown.png',
-    'https://cdn.discordapp.com/attachments/881855141656006699/930052640870641704/unknown.png'
-    ]
-
-    if message.content.startswith(leadvar+'hermajesty'):
-        k = random.randrange(0,len(melo))
-        await message.channel.send(melo[k])
-    if message.content.startswith(leadvar+'theirmajesty'):
-        k = random.randrange(0,len(melo))
-        await message.channel.send(melo[k])
-    
-    # >reese
-    reese = [
-    'https://cdn.discordapp.com/attachments/881855141656006699/928037187054874624/Therapy_costs_money_shitposting_is_free.png',
-    'resident catgirl',
-    '<:pained:930055983160524840>',
-    'https://www.youtube.com/watch?v=XVekJTmtwqM'
-    ]
-    if message.content.startswith(leadvar+'reese'):
-        j = random.randrange(0,len(reese))
-        await message.channel.send(reese[j])
-    
-    # >nico
-    nico = [
-        '<@&919998459795361822>',
-        'I am a child',
-        'read unorthodox marxism',
-        'parecon solves this'
-    ]
-    if message.content.startswith(leadvar+'nico'):
-        j = random.randrange(0,len(nico))
-        await message.channel.send(nico[j])
-
-    # >kimik
-    kimik = [
-        'https://i.redd.it/3bsmt7wh3m611.jpg',
-        'fuck you too',
-        'Tu rationalise tes echecs par le contexte, c\'est un biais classique'
-    ]
-    if message.content.startswith(leadvar+'kimik'):
-        if message.content.startswith(leadvar +'kimik+panda'):
-            await message.channel.send('https://tenor.com/view/busy-panda-run-busy-panda-busy-person-gif-23478514')
-        else:
-            z = random.randrange(0,len(kimik))
-            await message.channel.send(kimik[z])
-
-  
-    # >corb
-    if message.content.startswith(leadvar+'corb'):
-        await message.channel.send('https://i.kym-cdn.com/photos/images/newsfeed/002/255/820/79a.jpg')        
-    
-    # >waifu
-    waifu = [
-        'https://c.tenor.com/xMUclj_Bn9AAAAAC/jujutsu-kaisen-anime.gif',
-        'Fuck Joe Biden',
-        'The democrats are corrupt and impotent.',
-        'https://cdn.discordapp.com/attachments/753748113294098542/930728310932127774/gude-tiring-wow.png',
-        'http://weheartit.com/entry/141825327',
-        'https://www.youtube.com/watch?v=FPxY8lpYAUM'
-    ]
-    if message.content.startswith(leadvar+'waifu'):
-        j = random.randrange(0,len(waifu))
-        await message.channel.send(waifu[j])
-            
-    # >lucky
-    if message.content.startswith(leadvar+'lucky'):
-        await message.channel.send('A certified cool guy')
-    
-    # >ginge
-    if message.content.startswith(leadvar+'ginge'):
-        if random.randrange(1,3) == 1:
-            await message.channel.send('https://c.tenor.com/Nu5y6fiL9cEAAAAd/reigen-arataka-drinking.gif')
-        else:
-            await message.channel.send('https://www.youtube.com/watch?v=es9-P1SOeHU')    
-    
-    # >zoomy
-    zoomy = [
-    'Fuckin\' Brits',
-    'GDP is lies and hornswoggle',
-    'Neoclassical economics is horoscopes and witchcraft',
-    'Oi you wanker, ah u havin\' a gaggle? Ay\'ll baight ur fookin\' legs off',
-    'https://youtu.be/3bYRCTS7eBU'
-    ]
-    if message.content.startswith(leadvar+'zoomy'):
-        j = random.randrange(0,len(zoomy))
-        await message.channel.send(zoomy[j])
-
-    # >pecun
-    pecun = [
-        'I love veblen almost obsessively',
-        'https://discord.com/channels/881855141077213185/881856105070866442/929801848464998421',
-        'There is a required consumption which escalates with the pecuniary standard.',
-    ]
-    if message.content.startswith(leadvar+'pecun'):
-        j = random.randrange(0,len(pecun))
-        await message.channel.send(pecun[j])
-
-    # >cass
-    if message.content.startswith(leadvar+'cass'):
-        await message.channel.send('https://www.ikea.com/de/de/p/blahaj-stoffspielzeug-hai-30373588/')
     # Functional Responses
     # imvegan
 
@@ -238,6 +97,18 @@ async def on_message(message):
         pbonkboard = dict(sorted(bonkboard.items(),key=lambda item: item[1],reverse=True))
         prettybonkboard =json.dumps(pbonkboard, indent=4,ensure_ascii=False)
         await messagechannel.send(prettybonkboard)
+    
+    
+    # Custom Command Reader
+    if message.content.startswith(leadvar):
+        command = message.content.strip(leadvar)
+        guild = panda.get_guild(881855141077213185)
+        custom_function_data = custom_func_get(guild)
+        for key in custom_function_data.keys():
+            if command == key:
+                responseoptions = custom_function_data[key]
+                j = random.randrange(0,len(responseoptions))
+                await message.channel.send(responseoptions[j])        
 
 
 
