@@ -10,6 +10,8 @@ load_dotenv()
 token = os.getenv('Discord_token')
 close_mutuals = os.getenv('close_moots')
 daddycord = os.getenv('daddycord')
+muse = os.getenv('muse')
+shitshow=os.getenv('shitshow')
 
 
 leadvar = '>'
@@ -43,7 +45,6 @@ async def on_message(message):
         'https://media3.giphy.com/media/N6funLtVsHW0g/giphy.gif?cid=ecf05e47oy0ihuz5qzbrdflupwb28sk98dfnwc2j8hrc5nou&rid=giphy.gif&ct=g',
         'https://media3.giphy.com/media/EPcvhM28ER9XW/giphy.gif?cid=ecf05e47oy0ihuz5qzbrdflupwb28sk98dfnwc2j8hrc5nou&rid=giphy.gif&ct=g',
         'https://media.tenor.co/videos/6c5f4ceb9199e579fe690b4df0050747/mp4',
-        'https://tenor.com/view/busy-panda-run-busy-panda-busy-person-gif-23478514'
     ]
     
     message.content = message.content.lower()
@@ -135,8 +136,11 @@ async def on_message(message):
         'Tu rationalise tes echecs par le contexte, c\'est un biais classique'
     ]
     if message.content.startswith(leadvar+'kimik'):
-        z = random.randrange(0,len(kimik))
-        await message.channel.send(kimik[z])
+        if message.content.startswith(leadvar +'kimik+panda'):
+            await message.channel.send('https://tenor.com/view/busy-panda-run-busy-panda-busy-person-gif-23478514')
+        else:
+            z = random.randrange(0,len(kimik))
+            await message.channel.send(kimik[z])
 
   
     # >corb
@@ -146,16 +150,14 @@ async def on_message(message):
     # >waifu
     waifu = [
         'https://c.tenor.com/xMUclj_Bn9AAAAAC/jujutsu-kaisen-anime.gif',
-        '"Knowing how to be solitary is central to the art of loving. When we can be alone, we can be with others without using them as a means of escape."',
-        'Fuck Covid',
         'Fuck Joe Biden',
         'The democrats are corrupt and impotent.',
-        'The rising tide of fascism will doom us all, and the only political party able to stand in its way prefers to squabble amongst itself and hand Trump or DeSantis the 2024 presidency.',
-        'Climate Change has stolen the future from us all, and we are only able to watch its immense propensity with limp torpor.',
-        'https://cdn.discordapp.com/attachments/753748113294098542/930728310932127774/gude-tiring-wow.png https://cdn.discordapp.com/attachments/753748113294098542/930728311355756554/gudetama-in-shell.png'
+        'https://cdn.discordapp.com/attachments/753748113294098542/930728310932127774/gude-tiring-wow.png',
+        'http://weheartit.com/entry/141825327',
+        'https://www.youtube.com/watch?v=FPxY8lpYAUM'
     ]
     if message.content.startswith(leadvar+'waifu'):
-        j = random.randrange(1,len(waifu))
+        j = random.randrange(0,len(waifu))
         await message.channel.send(waifu[j])
             
     # >lucky
@@ -207,7 +209,10 @@ async def on_message(message):
         t = random.randrange(0,len(vegan))
         await message.channel.send(vegan[t])
     
-    # Bonkboard iterates through messages and 
+    # Bonkboard iterates through messages and returns a semisorted list of users and their bonks. Has a selection of bonk emotes (maybe should just check for the text bonk)
+    # List needs to be sorted largest to smallest, and needs brackets removed
+    # If not from closemutuals, return null
+    # Also needs to have separate handling for args like alltime (csv), days, etc.
     if message.content.startswith(leadvar+'bonkboard'):
         bonk = ['<:bonk:896886830622965820>','<:BONK:718289967155118130>','<:bonk:930818372831174656>']
         bonkboard = {}
@@ -230,7 +235,8 @@ async def on_message(message):
                 continue
             except:
                 continue
-        prettybonkboard =json.dumps(bonkboard, indent=4)
+        pbonkboard = dict(sorted(bonkboard.items(),key=lambda item: item[1],reverse=True))
+        prettybonkboard =json.dumps(pbonkboard, indent=4,ensure_ascii=False)
         await messagechannel.send(prettybonkboard)
 
 
