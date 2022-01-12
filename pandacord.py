@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import random
 from discord import HTTPException
 from tqdm import tqdm
+import json
 
 load_dotenv()
 token = os.getenv('Discord_token')
@@ -41,7 +42,8 @@ async def on_message(message):
         'https://c.tenor.com/YDionZwapW4AAAAC/jjk-lazy.gif',
         'https://media3.giphy.com/media/N6funLtVsHW0g/giphy.gif?cid=ecf05e47oy0ihuz5qzbrdflupwb28sk98dfnwc2j8hrc5nou&rid=giphy.gif&ct=g',
         'https://media3.giphy.com/media/EPcvhM28ER9XW/giphy.gif?cid=ecf05e47oy0ihuz5qzbrdflupwb28sk98dfnwc2j8hrc5nou&rid=giphy.gif&ct=g',
-        'https://media.tenor.co/videos/6c5f4ceb9199e579fe690b4df0050747/mp4'
+        'https://media.tenor.co/videos/6c5f4ceb9199e579fe690b4df0050747/mp4',
+        'https://tenor.com/view/busy-panda-run-busy-panda-busy-person-gif-23478514'
     ]
     
     message.content = message.content.lower()
@@ -149,8 +151,8 @@ async def on_message(message):
         'Fuck Joe Biden',
         'The democrats are corrupt and impotent.',
         'The rising tide of fascism will doom us all, and the only political party able to stand in its way prefers to squabble amongst itself and hand Trump or DeSantis the 2024 presidency.',
-        'Climate Change has stolen the future from us all, and we are only able to watch its immense propensity with limp torpor.'
-
+        'Climate Change has stolen the future from us all, and we are only able to watch its immense propensity with limp torpor.',
+        'https://cdn.discordapp.com/attachments/753748113294098542/930728310932127774/gude-tiring-wow.png https://cdn.discordapp.com/attachments/753748113294098542/930728311355756554/gudetama-in-shell.png'
     ]
     if message.content.startswith(leadvar+'waifu'):
         j = random.randrange(1,len(waifu))
@@ -205,21 +207,9 @@ async def on_message(message):
         t = random.randrange(0,len(vegan))
         await message.channel.send(vegan[t])
     
-
-    # >dakota will likely need some sort of gif return
-    # if message.content.startswith(leadvar+'dakota'):
-        # await message.channel.send()
-    
-    ## Bonkboard The current version does the following. It fetches every channel in the guild (in this case close moots), then it fetches the history of every channel.
-    ## Afterwards, it iterates through every message, checking that the reactions on the message match the bonk emoji. When it finds a match, it increments the bonkboard counter
-    ## The bonkboard counter is then returned at the end.
-    ## This is very resource intensive. The first improvement will need to be to store the data locally. Capture the time of the request, then make sure the fetched history
-    ## does not go earlier than the most recent fetched history. This can be done with a little logic. 
-
-
+    # Bonkboard iterates through messages and 
     if message.content.startswith(leadvar+'bonkboard'):
         bonk = ['<:bonk:896886830622965820>','<:BONK:718289967155118130>','<:bonk:930818372831174656>']
-        #bonk = 'kekw'
         bonkboard = {}
         closemoots = panda.get_guild(881855141077213185)
         messagechannel = message.channel
@@ -232,17 +222,16 @@ async def on_message(message):
                             try: 
                                 temp = bonkboard[message.author.name] + react.count
                                 bonkboard.update({message.author.name: temp})
-                                #print('bonk counted')
                             except:
                                 bonkboard[message.author.name] = react.count
                         else:
                             continue
             except AttributeError:
-                print(AttributeError)
                 continue
             except:
                 continue
-        await messagechannel.send(bonkboard)
+        prettybonkboard =json.dumps(bonkboard, indent=4)
+        await messagechannel.send(prettybonkboard)
 
 
 
