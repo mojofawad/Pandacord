@@ -1,10 +1,14 @@
 import csv
 from http.client import responses
 import os
+
+
+
+
 full_name = ''
 guilddict = {}
 
-# imports the local csv file
+# imports the local csv file, returning it for the custom variable function to search
 def custom_func_get(guild):
     base_string = 'D:\Python\Git\Pandacord\Data\\'
     guild = guild.name + '.csv'
@@ -40,16 +44,15 @@ def custom_func_update(guild,arg2,arg3):
                     row.append(response)
                     guildobj.append(row)
                     update = True
-                    print(update)
+                    
                 else:
                     guildobj.append(row)
                     continue
-
-                if update == False:
-                    newrow = [arg2,arg3]
-                    print(newrow)
-                    guildobj.append(newrow)
-            print(guildobj)        
+                      
+            if update == False:
+                newrow = [arg2,arg3]
+                print(newrow)
+                guildobj.append(newrow)
             guilddata.close()
         with open(full_name,mode='w',newline='') as new_csv:
             writer = csv.writer(new_csv)
