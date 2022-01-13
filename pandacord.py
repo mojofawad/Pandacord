@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import discord
 import os
 from dotenv import load_dotenv
@@ -25,10 +26,10 @@ async def on_ready():
         if guild.name == daddycord: # or guild.name == close_mutuals:
             break
 
-    print(
-        f'{panda.user} has entered the swimming pool!:\n'
-        f'{guild.name}(id: {guild.id})\n'
-        )
+        print(
+            f'{panda.user} has entered the swimming pool!:\n'
+            f'{guild.name}(id: {guild.id})\n'
+            )
 
 # Panda Gifer
 @panda.event
@@ -47,6 +48,7 @@ async def on_message(message):
         'https://media.tenor.co/videos/6c5f4ceb9199e579fe690b4df0050747/mp4',
     ]
     
+    # trims message of punctuation, fixes cases
     message.content = message.content.lower()
     message.content = message.content.replace('.', "")
     message.content = message.content.replace("'", "")
@@ -56,8 +58,7 @@ async def on_message(message):
         await message.channel.send(response)
 
     # Functional Responses
-    # imvegan
-
+    # imvegan, checks if message contains i'm vegan, and returns one of the potential responses.
     if message.content.find('im vegan') >= 0:
         vegan = [
             'But where do you get your protein?',
@@ -75,7 +76,7 @@ async def on_message(message):
     if message.content.startswith(leadvar+'bonkboard'):
         bonk = ['<:bonk:896886830622965820>','<:BONK:718289967155118130>','<:bonk:930818372831174656>']
         bonkboard = {}
-        closemoots = panda.get_guild(881855141077213185)
+        closemoots = panda.get_guild(881855141077213185) # needs to be updated to control for close mutuals
         messagechannel = message.channel
         for channels in closemoots.channels:
             try:
@@ -97,18 +98,34 @@ async def on_message(message):
         pbonkboard = dict(sorted(bonkboard.items(),key=lambda item: item[1],reverse=True))
         prettybonkboard =json.dumps(pbonkboard, indent=4,ensure_ascii=False)
         await messagechannel.send(prettybonkboard)
-    
+
+    # Custom Command Adder
+    if message.content.startswith(leadvar + 'addcommand'):
+        arg1, arg2, arg3 = message.content.split('|')
+        arg2 = arg2.strip()
+        arg3 = arg3.strip()
+        guild = message.guild
+        if arg2 and arg3 != NULL:
+            if custom_func_update(guild,arg2,arg3) == True:
+                await message.channel.send('Done! Function Successfully Updated')
+            else:
+                await message.channel.send('Something broke <@253019708360491010>')
+        else:
+            await message.channel.send('Please use the syntax: >addcomand | arg1 | arg2')
     
     # Custom Command Reader
     if message.content.startswith(leadvar):
         command = message.content.strip(leadvar)
-        guild = panda.get_guild(881855141077213185)
+        guild = message.guild
         custom_function_data = custom_func_get(guild)
         for key in custom_function_data.keys():
             if command == key:
                 responseoptions = custom_function_data[key]
                 j = random.randrange(0,len(responseoptions))
-                await message.channel.send(responseoptions[j])        
+                response = responseoptions[j].strip("'")
+                await message.channel.send(response)
+
+    
 
 
 
