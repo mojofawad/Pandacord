@@ -9,6 +9,7 @@ full_name = ''
 guilddict = {}
 
 # imports the local csv file, returning it for the custom variable function to search
+# This might need a try block to handle empty rows if they show up in the csv. Would go before command = row[0]
 def custom_func_get(guild):
     base_string = 'D:\Python\Git\Pandacord\Data\\'
     guild = guild.name + '.csv'

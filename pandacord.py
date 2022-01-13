@@ -50,7 +50,7 @@ async def on_message(message):
     
     # trims message of punctuation, fixes cases
     message.content = message.content.lower()
-    message.content = message.content.replace('.', "")
+    #message.content = message.content.replace('.', "")
     message.content = message.content.replace("'", "")
     # >panda
     if message.content.startswith(leadvar+'panda'):
