@@ -49,6 +49,26 @@ async def on_message(message):
         'https://media.tenor.co/videos/6c5f4ceb9199e579fe690b4df0050747/mp4',
     ]
     
+    # Custom Command Addcommand
+    if message.content.startswith(leadvar + 'addcommand'):
+        try: 
+            arg1, arg2, arg3 = message.content.split('|')
+        except ValueError:
+            await message.channel.send('Please use the syntax: >addcomand | arg1 | arg2')
+        else:    
+            arg2 = arg2.strip()
+            arg3 = arg3.strip()
+            guild = message.guild
+            if arg2 and arg3 != NULL and len(arg3) <69:
+                if custom_func_update(guild,arg2,arg3) == True:
+                    await message.channel.send('Done! Function Successfully Updated')
+                else:
+                    await message.channel.send('Something broke <@253019708360491010>')
+            elif len(arg3) > 69:
+                await message.channel.send('Your payload is too big for my processing portal. Please consider shortening it.')
+            else:
+                await message.channel.send('Please use the syntax: >addcomand | arg1 | arg2')
+
     # trims message of punctuation, fixes cases
     message.content = message.content.lower()
     message.content = message.content.replace("'", "")
@@ -71,6 +91,9 @@ async def on_message(message):
     
     if message.content.find('good bot') >= 0:
         await message.channel.send('abubububuaususadhhh;')
+
+    if message.content.find('bad bot') >= 0:
+        await message.channel.send('Who the fuck do you think you are?')    
     # Bonkboard iterates through messages and returns a semisorted list of users and their bonks. Has a selection of bonk emotes (maybe should just check for the text bonk)
     # List needs to be sorted largest to smallest, and needs brackets removed
     # If not from closemutuals, return null
@@ -104,24 +127,7 @@ async def on_message(message):
     if message.content.startswith(leadvar + 'kimik+panda'):
         await message.channel.send('https://tenor.com/view/busy-panda-run-busy-panda-busy-person-gif-23478514')
 
-    # Custom Command Addcommand
-    if message.content.startswith(leadvar + 'addcommand'):
-        try: 
-            arg1, arg2, arg3 = message.content.split('|')
-        except ValueError:
-            await message.channel.send('Please use the syntax: >addcomand | arg1 | arg2')
-        else:    
-            arg2 = arg2.strip()
-            arg3 = arg3.strip()
-            guild = message.guild
-            if arg2 and arg3 != NULL:
-                if custom_func_update(guild,arg2,arg3) == True:
-                    await message.channel.send('Done! Function Successfully Updated')
-                else:
-                    await message.channel.send('Something broke <@253019708360491010>')
-            else:
-                await message.channel.send('Please use the syntax: >addcomand | arg1 | arg2')
-    
+
     # Custom Command Reader
     if message.content.startswith(leadvar):
         command = message.content.strip(leadvar)
