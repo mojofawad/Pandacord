@@ -1,4 +1,5 @@
 from asyncio.windows_events import NULL
+from tracemalloc import stop
 import discord
 import os
 from dotenv import load_dotenv
@@ -50,7 +51,6 @@ async def on_message(message):
     
     # trims message of punctuation, fixes cases
     message.content = message.content.lower()
-    #message.content = message.content.replace('.', "")
     message.content = message.content.replace("'", "")
     # >panda
     if message.content.startswith(leadvar+'panda'):
@@ -69,6 +69,8 @@ async def on_message(message):
         t = random.randrange(0,len(vegan))
         await message.channel.send(vegan[t])
     
+    if message.content.find('good bot') >= 0:
+        await message.channel.send('abubububuaususadhhh;')
     # Bonkboard iterates through messages and returns a semisorted list of users and their bonks. Has a selection of bonk emotes (maybe should just check for the text bonk)
     # List needs to be sorted largest to smallest, and needs brackets removed
     # If not from closemutuals, return null
@@ -99,19 +101,26 @@ async def on_message(message):
         prettybonkboard =json.dumps(pbonkboard, indent=4,ensure_ascii=False)
         await messagechannel.send(prettybonkboard)
 
-    # Custom Command Adder
+    if message.content.startswith(leadvar + 'kimik+panda'):
+        await message.channel.send('https://tenor.com/view/busy-panda-run-busy-panda-busy-person-gif-23478514')
+
+    # Custom Command Addcommand
     if message.content.startswith(leadvar + 'addcommand'):
-        arg1, arg2, arg3 = message.content.split('|')
-        arg2 = arg2.strip()
-        arg3 = arg3.strip()
-        guild = message.guild
-        if arg2 and arg3 != NULL:
-            if custom_func_update(guild,arg2,arg3) == True:
-                await message.channel.send('Done! Function Successfully Updated')
-            else:
-                await message.channel.send('Something broke <@253019708360491010>')
-        else:
+        try: 
+            arg1, arg2, arg3 = message.content.split('|')
+        except ValueError:
             await message.channel.send('Please use the syntax: >addcomand | arg1 | arg2')
+        else:    
+            arg2 = arg2.strip()
+            arg3 = arg3.strip()
+            guild = message.guild
+            if arg2 and arg3 != NULL:
+                if custom_func_update(guild,arg2,arg3) == True:
+                    await message.channel.send('Done! Function Successfully Updated')
+                else:
+                    await message.channel.send('Something broke <@253019708360491010>')
+            else:
+                await message.channel.send('Please use the syntax: >addcomand | arg1 | arg2')
     
     # Custom Command Reader
     if message.content.startswith(leadvar):
