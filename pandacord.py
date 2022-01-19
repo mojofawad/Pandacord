@@ -70,16 +70,17 @@ async def on_message(message):
             else:
                 await message.channel.send('Please use the syntax: >addcomand | arg1 | arg2')
 
-    # automatic spoiler for #nsfw and #nsfw-mem
+    # automatic spoiler for #nsfw channels, 
     if message.channel.is_nsfw():
         for attachment in message.attachments:
             if attachment.is_spoiler() is False:
                 spoiled = await discord.Attachment.to_file(attachment,spoiler=True)
-                await message.channel.send(file=spoiled)
+                spoiltext = message.author.mention + ' ' + message.content
+                await message.channel.send(content=spoiltext, file=spoiled)
                 await message.delete()
 
 
-    # trims message of punctuation, fixes cases
+    # trims message of punctuation, fixes cases. Maybe should just be replaced with a list of common spellings for functions 
     message.content = message.content.lower()
     message.content = message.content.replace("'", "")
     # >panda
