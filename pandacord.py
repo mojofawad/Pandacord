@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import random
 from discord import HTTPException
 import json
+from bonkboard import bonk_history
 from csvfunctions import custom_func_get,custom_func_update
 
 load_dotenv()
@@ -15,7 +16,7 @@ daddycord = os.getenv('daddycord')
 muse = os.getenv('muse')
 shitshow=os.getenv('shitshow')
 
-
+Max_response_length = 180
 leadvar = '>'
 EMOJI_NAMES = ["pin", "📌"]
 
@@ -56,18 +57,27 @@ async def on_message(message):
         except ValueError:
             await message.channel.send('Please use the syntax: >addcomand | arg1 | arg2')
         else:    
-            arg2 = arg2.strip()
+            arg2 = arg2.strip().lower()
             arg3 = arg3.strip()
             guild = message.guild
-            if arg2 and arg3 != NULL and len(arg3) <69:
+            if arg2 and arg3 != NULL and len(arg3) <Max_response_length:
                 if custom_func_update(guild,arg2,arg3) == True:
                     await message.channel.send('Done! Function Successfully Updated')
                 else:
                     await message.channel.send('Something broke <@253019708360491010>')
-            elif len(arg3) > 69:
+            elif len(arg3) > Max_response_length:
                 await message.channel.send('Your payload is too big for my processing portal. Please consider shortening it.')
             else:
                 await message.channel.send('Please use the syntax: >addcomand | arg1 | arg2')
+
+    # automatic spoiler for #nsfw and #nsfw-mem
+    if message.channel.is_nsfw():
+        for attachment in message.attachments:
+            if attachment.is_spoiler() is False:
+                spoiled = await discord.Attachment.to_file(attachment,spoiler=True)
+                await message.channel.send(file=spoiled)
+                await message.delete()
+
 
     # trims message of punctuation, fixes cases
     message.content = message.content.lower()
@@ -102,31 +112,30 @@ async def on_message(message):
         bonk = ['<:bonk:896886830622965820>','<:BONK:718289967155118130>','<:bonk:930818372831174656>']
         bonkboard = {}
         closemoots = panda.get_guild(881855141077213185) # needs to be updated to control for close mutuals
+        if message.content.count('|') == 1:
+            command, timearg = message.content.split('|')
+            timearg = timearg.strip().lower()
+        elif message.content.count('|') > 1:
+            await message.channel.send('Please use the syntax >bonkboard | [time]')
+            
+        else:
+            timearg = None
         messagechannel = message.channel
-        for channels in closemoots.channels:
-            try:
-                messages = await channels.history(limit=100).flatten()
-                for message in messages:
-                    for react in message.reactions:
-                        if str(react) in bonk:
-                            try: 
-                                temp = bonkboard[message.author.name] + react.count
-                                bonkboard.update({message.author.name: temp})
-                            except:
-                                bonkboard[message.author.name] = react.count
+        messagelist = await bonk_history(timearg,panda)
+        for messages in messagelist:
+            for message in messages:
+                for react in message.reactions:
+                    if str(react) in bonk:
+                        if message.author.name in bonkboard.keys(): 
+                            temp = bonkboard[message.author.name] + react.count
+                            bonkboard.update({message.author.name: temp})
                         else:
-                            continue
-            except AttributeError:
-                continue
-            except:
-                continue
+                            bonkboard[message.author.name] = react.count
+                    else:
+                        continue
         pbonkboard = dict(sorted(bonkboard.items(),key=lambda item: item[1],reverse=True))
         prettybonkboard =json.dumps(pbonkboard, indent=4,ensure_ascii=False)
         await messagechannel.send(prettybonkboard)
-
-    if message.content.startswith(leadvar + 'kimik+panda'):
-        await message.channel.send('https://tenor.com/view/busy-panda-run-busy-panda-busy-person-gif-23478514')
-
 
     # Custom Command Reader
     if message.content.startswith(leadvar):
