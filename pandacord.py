@@ -60,7 +60,7 @@ async def on_message(message):
             arg2 = arg2.strip().lower()
             arg3 = arg3.strip()
             guild = message.guild
-            if arg2 and arg3 != NULL and len(arg3) <Max_response_length:
+            if arg2 and arg3 != None and len(arg3) <Max_response_length and arg2.find(' ') ==-1: # this was null and changed to none, not sure if it matters
                 if custom_func_update(guild,arg2,arg3) == True:
                     await message.channel.send('Done! Function Successfully Updated')
                 else:
@@ -68,16 +68,19 @@ async def on_message(message):
             elif len(arg3) > Max_response_length:
                 await message.channel.send('Your payload is too big for my processing portal. Please consider shortening it.')
             else:
-                await message.channel.send('Please use the syntax: >addcomand | arg1 | arg2')
+                if arg2.find(' ') > -1:
+                    await message.channel.send('Please don\'t use spaces in the command you want to add')
+                else:
+                    await message.channel.send('Please use the syntax: >addcomand | arg1 | arg2')
 
     # automatic spoiler for #nsfw channels, 
-    if message.channel.is_nsfw():
-        for attachment in message.attachments:
-            if attachment.is_spoiler() is False:
-                spoiled = await discord.Attachment.to_file(attachment,spoiler=True)
-                spoiltext = message.author.mention + ' ' + message.content
-                await message.channel.send(content=spoiltext, file=spoiled)
-                await message.delete()
+    #if message.channel.is_nsfw():
+        #for attachment in message.attachments:
+            #if attachment.is_spoiler() is False:
+                #spoiled = await discord.Attachment.to_file(attachment,spoiler=True)
+                #spoiltext = message.author.mention + ' ' + message.content
+                #await message.channel.send(content=spoiltext, file=spoiled)
+                #await message.delete()
 
 
     # trims message of punctuation, fixes cases. Maybe should just be replaced with a list of common spellings for functions 
@@ -95,7 +98,10 @@ async def on_message(message):
             'But where do you get your protein?',
             'Oh me too! I only eat meat on Thursdays!',
             'Oh I could never be vegan, where would I get my B12?',
-            'So that means you eat fish right?'
+            'So that means you eat fish right?',
+            'Oh I could never, I love bacon too much!',
+            'I\'ve been really cutting down on my red meat by switching to chicken.',
+            'I opened up my wallet, and it was full of blood.'
         ]
         t = random.randrange(0,len(vegan))
         await message.channel.send(vegan[t])
