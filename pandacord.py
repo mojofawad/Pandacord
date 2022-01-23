@@ -60,7 +60,7 @@ async def on_message(message):
             arg2 = arg2.strip().lower()
             arg3 = arg3.strip()
             guild = message.guild
-            if arg2 and arg3 != None and len(arg3) <Max_response_length and arg2.find(' ') ==-1: # this was null and changed to none, not sure if it matters
+            if arg2 and arg3 != None and len(arg3) <Max_response_length and arg2.find(' ') ==-1 and len(arg3) != 0: # this was null and changed to none, not sure if it matters
                 if custom_func_update(guild,arg2,arg3) == True:
                     await message.channel.send('Done! Function Successfully Updated')
                 else:
