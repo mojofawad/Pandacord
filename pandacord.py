@@ -1,5 +1,3 @@
-from asyncio.windows_events import NULL
-from tracemalloc import stop
 import discord
 import os
 from dotenv import load_dotenv
