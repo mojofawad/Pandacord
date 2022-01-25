@@ -11,7 +11,7 @@ guilddict = {}
 # imports the local csv file, returning it for the custom variable function to search
 # This might need a try block to handle empty rows if they show up in the csv. Would go before command = row[0]
 def custom_func_get(guild):
-    base_string = 'D:\Python\Git\Pandacord\Data\\'
+    base_string = '~/pandacord/Pandacord/Data'
     guild = guild.name + '.csv'
     full_name = os.path.join(base_string,guild)
     with open(full_name,newline='') as guilddata:
