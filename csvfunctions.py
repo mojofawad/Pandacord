@@ -12,7 +12,7 @@ guilddict = {}
 # This might need a try block to handle empty rows if they show up in the csv. Would go before command = row[0]
 def custom_func_get(guild):
     script_dir = os.path.dirname(__file__)
-    guild = '/Data' + guild.name + '.csv'
+    guild = '/Data/' + guild.name + '.csv'
     full_name = os.path.join(script_dir,guild)
     with open(full_name,newline='') as guilddata:
         data = csv.reader(guilddata)
@@ -29,9 +29,9 @@ def custom_func_get(guild):
 
 # Updates the local csv file w/ the new commands. Copies data from the old csv, adds the new data, then returns the updated object, which is then written to csv.
 def custom_func_update(guild,arg2,arg3):
-    base_string = 'D:\Python\Git\Pandacord\Data\\'    
-    guild = guild.name + '.csv'
-    full_name = os.path.join(base_string,guild)
+    script_dir = os.path.dirname(__file__)
+    guild = '/Data/' + guild.name + '.csv'
+    full_name = os.path.join(script_dir,guild)
     confirmation = False
     update = False
     if os.path.exists(full_name):
