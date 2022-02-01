@@ -57,7 +57,7 @@ async def on_message(message):
         else:    
             arg2 = arg2.strip().lower()
             arg3 = arg3.strip()
-            guild = message.guild
+            #guild = message.guild
             guild_id = message.guild.id
             print(guild_id)
             if arg2 and arg3 != None and len(arg3) <Max_response_length and arg2.find(' ') ==-1 and len(arg3) != 0: # this was null and changed to none, not sure if it matters
@@ -147,7 +147,7 @@ async def on_message(message):
     # Custom Command Reader
     if message.content.startswith(leadvar):
         command = message.content.strip(leadvar)
-        guild = message.guild
+        #guild = message.guild
         guild_id = message.guild.id
         custom_function_data = custom_func_get(guild_id)
         for key in custom_function_data.keys():
