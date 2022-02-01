@@ -58,8 +58,10 @@ async def on_message(message):
             arg2 = arg2.strip().lower()
             arg3 = arg3.strip()
             guild = message.guild
+            guild_id = message.guild.id
+            print(guild_id)
             if arg2 and arg3 != None and len(arg3) <Max_response_length and arg2.find(' ') ==-1 and len(arg3) != 0: # this was null and changed to none, not sure if it matters
-                if custom_func_update(guild,arg2,arg3) == True:
+                if custom_func_update(guild_id,arg2,arg3) == True:
                     await message.channel.send('Done! Function Successfully Updated')
                 else:
                     await message.channel.send('Something broke <@253019708360491010>')
@@ -146,7 +148,8 @@ async def on_message(message):
     if message.content.startswith(leadvar):
         command = message.content.strip(leadvar)
         guild = message.guild
-        custom_function_data = custom_func_get(guild)
+        guild_id = message.guild.id
+        custom_function_data = custom_func_get(guild_id)
         for key in custom_function_data.keys():
             if command == key:
                 responseoptions = custom_function_data[key]
